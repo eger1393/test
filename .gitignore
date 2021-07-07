@@ -1,2 +1,7 @@
-﻿/bin
-/obj
+﻿Test.Frontend/node_modules
+Test.Data/obj
+Test.Data/bin
+Test.Backend/bin
+Test.Backend/obj
+Test.Frontend/.idea/
+obj/
