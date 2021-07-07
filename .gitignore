@@ -5,3 +5,4 @@ Test.Backend/bin
 Test.Backend/obj
 Test.Frontend/.idea/
 obj/
+/bin/

@@ -1,8 +1,13 @@
 version: '3.4'
 
 services:
-  test.backend:
-    image: ${DOCKER_REGISTRY-}testbackend
+  backend:
     build:
       context: .
       dockerfile: Test.Backend/Dockerfile
+    ports:
+     - "6060:80"
+  database:
+    image: "postgres" # use latest official postgres version
+    ports:
+      - "5432:5432"

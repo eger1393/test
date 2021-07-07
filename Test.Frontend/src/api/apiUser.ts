@@ -5,7 +5,7 @@ import {dateConverter} from "../helpers/dateHelper";
 export const apiGetUsers = () => axios.get(`api/user`).then(res => normalizeUser(res.data))
 
 export const apiAddUsers = (users: Array<IUser>) =>
-    axios.post(`api/user/create`, users).then(res => res.data)
+    axios.post(`api/user`, users).then(res => res.data)
 
 const normalizeUser = (data: any) => (data ?? []).map((x: any, i: number) => ({
     ...x,

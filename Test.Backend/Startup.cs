@@ -1,15 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Test.Data;
+using Test.Data.Repository;
 
 namespace Test.Backend
 {
@@ -31,6 +28,14 @@ namespace Test.Backend
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Test.Backend", Version = "v1" });
             });
+
+            services.AddDbContext<DataContext>(x =>
+                    x.UseNpgsql(Configuration.GetConnectionString("default"))
+                        .EnableSensitiveDataLogging(),
+                ServiceLifetime.Transient);
+            services.AddTransient<IUserRepository, UserRepository>();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,6 +56,11 @@ namespace Test.Backend
             {
                 endpoints.MapControllers();
             });
+
+
+            using var scope = app.ApplicationServices.CreateScope();
+            var ctx = scope.ServiceProvider.GetService<DataContext>();
+            ctx?.Database.Migrate();
         }
     }
 }
