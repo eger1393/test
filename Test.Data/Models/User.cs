@@ -19,5 +19,8 @@ namespace Test.Data.Models
         [DataType(DataType.Date)]
         [Column(TypeName = "Date")]
         public DateTime LastActivityDate { get; set; }
+
+
+        public UInt16 LifeSpanDays { get; set; }
     }
 }

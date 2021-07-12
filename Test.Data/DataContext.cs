@@ -16,7 +16,10 @@ namespace Test.Data
         {
             modelBuilder.Entity<User>().Property(x => x.LastActivityDate).HasColumnType("Date");
             modelBuilder.Entity<User>().Property(x => x.RegistrationDate).HasColumnType("Date");
-
+            modelBuilder.Entity<User>().HasIndex(x => x.RegistrationDate);
+            modelBuilder.Entity<User>().Property(x => x.LifeSpanDays)
+                .HasComputedColumnSql("\"LastActivityDate\" - \"RegistrationDate\"", true);
+            modelBuilder.Entity<User>().HasIndex(x => x.LifeSpanDays);
             base.OnModelCreating(modelBuilder);
         }
     }
