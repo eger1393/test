@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Test.Data.Models;
@@ -9,6 +10,9 @@ namespace Test.Data.Repository
     {
         Task AddRangeAsync(IEnumerable<User> users);
         Task<List<User>> GetAllAsync();
+
+        Task<int> GetCountUsersWhoRegisteredEarlierThan(DateTime date);
+        Task<int> GetCountActiveUsersAfter(ushort days);
     }
     public class UserRepository : IUserRepository
     {
@@ -19,14 +23,25 @@ namespace Test.Data.Repository
             _context = context;
         }
 
-        public Task AddRangeAsync(IEnumerable<User> users)
+        public async Task AddRangeAsync(IEnumerable<User> users)
         {
-            return _context.Users.AddRangeAsync(users);
+            await _context.Users.AddRangeAsync(users);
+            await _context.SaveChangesAsync();
         }
 
         public Task<List<User>> GetAllAsync()
         {
             return _context.Users.ToListAsync();
+        }
+
+        public Task<int> GetCountUsersWhoRegisteredEarlierThan(DateTime date)
+        {
+            return _context.Users.CountAsync(x => x.RegistrationDate <= date);
+        }
+
+        public Task<int> GetCountActiveUsersAfter(ushort days)
+        {
+            return _context.Users.CountAsync(x =>  x.LifeSpanDays >= days);
         }
     }
 }
