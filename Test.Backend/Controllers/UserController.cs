@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Test.Backend.Models;
 using Test.Data.Models;
 using Test.Data.Repository;
 
@@ -28,9 +27,19 @@ namespace Test.Backend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddUsers([FromBody] List<User> users)
+        public async Task<IActionResult> AddUsers([FromBody] List<ApiUserRequest> users)
         {
-            await _userRepository.AddRangeAsync(users);
+
+            await _userRepository.AddRangeAsync(
+                users.Select(x =>
+                    new User()
+                    {
+                        Id = default,
+                        LifeSpanDays = default,
+                        LastActivityDate = x.LastActivityDate,
+                        RegistrationDate = x.RegistrationDate,
+                    })
+                );
             return Ok();
         }
     }
