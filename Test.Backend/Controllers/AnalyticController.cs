@@ -14,6 +14,11 @@ namespace Test.Backend.Controllers
             _analyticService = analyticService;
         }
 
+        /// <summary>
+        /// Вычисление метрики повторяющегося удержания
+        /// </summary>
+        /// <param name="days"></param>
+        /// <returns></returns>
         [HttpGet("rollingRetention")]
         public async Task<IActionResult> GetRollingRetention([FromQuery] ushort days)
         {
@@ -24,6 +29,10 @@ namespace Test.Backend.Controllers
             return Ok(rollingRetention);
         }
 
+        /// <summary>
+        /// Распределение времени жизни пользователей
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("lifeSpanUsers")]
         public async Task<IActionResult> GetLifeSpanUsers()
         {

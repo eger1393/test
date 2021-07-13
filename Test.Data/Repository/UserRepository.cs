@@ -8,12 +8,37 @@ namespace Test.Data.Repository
 {
     public interface IUserRepository
     {
+        /// <summary>
+        /// Добавление списка пользователей в БД
+        /// </summary>
+        /// <param name="users"></param>
+        /// <returns></returns>
         Task AddRangeAsync(IEnumerable<User> users);
+        
+        /// <summary>
+        /// Получение всех пользователей из БД
+        /// </summary>
+        /// <returns></returns>
         Task<List<User>> GetAllAsync();
 
+        /// <summary>
+        /// Кол-во пользователей зарегестрированных ранее чем date
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
         Task<int> GetCountUsersWhoRegisteredEarlierThan(DateTime date);
+
+        /// <summary>
+        /// Кол-во пользователей время жизни (RegistrationDate - LastActivityDate) которых больше чем days
+        /// </summary>
+        /// <param name="days"></param>
+        /// <returns></returns>
         Task<int> GetCountActiveUsersAfter(ushort days);
 
+        /// <summary>
+        /// Удаление всех пользователей
+        /// </summary>
+        /// <returns></returns>
         Task DeleteAllAsync();
     }
     public class UserRepository : IUserRepository
@@ -33,6 +58,8 @@ namespace Test.Data.Repository
 
         public Task<List<User>> GetAllAsync()
         {
+            // возвращаем List для того что-бы не давать возможность выносить логику работы с БД из репозитория
+            // если бы мы вернули IQueriable то был бы шанс на не добросовестное исспользование (построение запроса к бд например из контроллера)
             return _context.Users.ToListAsync();
         }
 

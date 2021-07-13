@@ -19,6 +19,10 @@ namespace Test.Backend.Controllers
             _userRepository = userRepository;
         }
 
+        /// <summary>
+        /// Получение списка пользователей
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
@@ -26,6 +30,11 @@ namespace Test.Backend.Controllers
             return Ok(users);
         }
 
+        /// <summary>
+        /// Добавление пользователей
+        /// </summary>
+        /// <param name="users"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> AddUsers([FromBody] List<ApiUserRequest> users)
         {
@@ -43,6 +52,10 @@ namespace Test.Backend.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Удаление всех пользователей
+        /// </summary>
+        /// <returns></returns>
         [HttpDelete]
         public async Task<IActionResult> DeleteAllUsers()
         {
