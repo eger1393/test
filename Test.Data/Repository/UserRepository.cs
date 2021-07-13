@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using Test.Data.Models;
 
 namespace Test.Data.Repository
@@ -43,7 +43,7 @@ namespace Test.Data.Repository
 
         public Task<int> GetCountActiveUsersAfter(ushort days)
         {
-            return _context.Users.CountAsync(x =>  x.LifeSpanDays >= days);
+            return _context.Users.CountAsync(x => x.LifeSpanDays >= days);
         }
 
         public async Task DeleteAllAsync()
