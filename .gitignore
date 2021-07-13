@@ -7,3 +7,4 @@ Test.Frontend/.idea/
 obj/
 /bin/
 /.vs
+/Test.Services/bin

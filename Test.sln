@@ -9,7 +9,7 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Data", "Test.Data\Test.Data.csproj", "{23FC3A0D-F5F2-42A5-9B3C-F8B9B099F7A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Services", "..\Test.Services\Test.Services.csproj", "{40D37CE7-00AF-4E8E-ADCB-EDB7DEE38E21}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Services", "Test.Services\Test.Services.csproj", "{40D37CE7-00AF-4E8E-ADCB-EDB7DEE38E21}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
