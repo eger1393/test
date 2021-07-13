@@ -7,6 +7,8 @@ export const apiGetUsers = () => axios.get(`api/user`).then(res => normalizeUser
 export const apiAddUsers = (users: Array<IUser>) =>
     axios.post(`api/user`, users).then(res => res.data)
 
+export const apiDeleteAllUsers = () => axios.delete(`api/user`)
+
 const normalizeUser = (data: any) => (data ?? []).map((x: any, i: number) => ({
     ...x,
     registrationDate: dateConverter(x.registrationDate),

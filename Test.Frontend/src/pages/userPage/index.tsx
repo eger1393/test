@@ -4,7 +4,7 @@ import {ButtonContainer, Container} from "./styled";
 import AddUser from "./addUser";
 import {Button} from "@material-ui/core";
 import {IUser} from "../../models/user";
-import {apiAddUsers, apiGetUsers} from "../../api/apiUser";
+import {apiAddUsers, apiDeleteAllUsers, apiGetUsers} from "../../api/apiUser";
 import {createDateAsUTC, dateConverter} from "../../helpers/dateHelper";
 
 const columns: GridColDef[] = [
@@ -65,6 +65,11 @@ export const UserPage = () => {
         await updateData();
     }
 
+    const handleDeleteAll = async () => {
+        await apiDeleteAllUsers();
+        await updateData();
+    }
+
     if (isLoading) return <>Loading...</>
 
     return <Container>
@@ -72,6 +77,8 @@ export const UserPage = () => {
                   getRowClassName={getRowClassName} getRowId={(row: GridRowData) => row.tableId}/>
         <ButtonContainer>
             <Button onClick={handleSave} variant="outlined" disabled={!users.some(x => !x.id)}>Save</Button>
+
+            <Button onClick={handleDeleteAll} variant="outlined" disabled={users.length === 0}>Delete all</Button>
         </ButtonContainer>
         <AddUser handleAddUser={handleAddUser}/>
     </Container>

@@ -42,5 +42,12 @@ namespace Test.Backend.Controllers
                 );
             return Ok();
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteAllUsers()
+        {
+            await _userRepository.DeleteAllAsync();
+            return Ok();
+        }
     }
 }
