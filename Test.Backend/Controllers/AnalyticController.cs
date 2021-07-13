@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Linq;
 using System.Threading.Tasks;
-using Test.Backend.Models;
-using Test.Data.Repository;
+using Test.Services.Services;
 
 namespace Test.Backend.Controllers
 {
@@ -11,11 +8,10 @@ namespace Test.Backend.Controllers
     [ApiController]
     public class AnalyticController : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
-
-        public AnalyticController(IUserRepository userRepository)
+        private readonly IAnalyticService _analyticService;
+        public AnalyticController(IAnalyticService analyticService)
         {
-            _userRepository = userRepository;
+            _analyticService = analyticService;
         }
 
         [HttpGet("rollingRetention")]
@@ -24,25 +20,14 @@ namespace Test.Backend.Controllers
             if (days == 0)
                 return BadRequest("Кол-во дней должно быть больше 1");
 
-            var activeUsersCount = _userRepository.GetCountActiveUsersAfter(days);
-            var registeredUsersCount = _userRepository.GetCountUsersWhoRegisteredEarlierThan(DateTime.Today.AddDays(-days));
-            await Task.WhenAll(activeUsersCount, registeredUsersCount);
-            var rollingRetention = (double)activeUsersCount.Result / registeredUsersCount.Result * 100;
+            var rollingRetention = await _analyticService.CalculateRollingRetentionAsync(days);
             return Ok(rollingRetention);
         }
 
         [HttpGet("lifeSpanUsers")]
         public async Task<IActionResult> GetLifeSpanUsers()
         {
-            var users = await _userRepository.GetAllAsync();
-            var lifeSpanDays = users.Select(x => x.LifeSpanDays).ToList();
-            var result = lifeSpanDays.Distinct()
-                .OrderBy(x => x)
-                .Select(x => new ApiLifeSpanUserResponse()
-                {
-                    LifeSpanDays = x,
-                    Count = lifeSpanDays.Count(lifeSpan => lifeSpan == x)
-                });
+            var result = await _analyticService.GetLifeSpanDistribution();
             return Ok(result);
         }
     }

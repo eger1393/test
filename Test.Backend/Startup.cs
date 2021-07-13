@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Test.Data;
 using Test.Data.Repository;
+using Test.Services.Services;
 
 namespace Test.Backend
 {
@@ -34,6 +35,7 @@ namespace Test.Backend
                         .EnableSensitiveDataLogging(),
                 ServiceLifetime.Transient);
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IAnalyticService, AnalyticService>();
 
 
         }

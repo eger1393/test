@@ -13,6 +13,8 @@ namespace Test.Data.Repository
 
         Task<int> GetCountUsersWhoRegisteredEarlierThan(DateTime date);
         Task<int> GetCountActiveUsersAfter(ushort days);
+
+        Task DeleteAllAsync();
     }
     public class UserRepository : IUserRepository
     {
@@ -42,6 +44,13 @@ namespace Test.Data.Repository
         public Task<int> GetCountActiveUsersAfter(ushort days)
         {
             return _context.Users.CountAsync(x =>  x.LifeSpanDays >= days);
+        }
+
+        public async Task DeleteAllAsync()
+        {
+            var users = await _context.Users.ToListAsync();
+            _context.Users.RemoveRange(users);
+            await _context.SaveChangesAsync();
         }
     }
 }
