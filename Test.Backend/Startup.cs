@@ -44,6 +44,10 @@ namespace Test.Backend
             services.AddTransient<IAnalyticService, AnalyticService>();
 
 
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "./ClientApp";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,8 +56,6 @@ namespace Test.Backend
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Test.Backend v1"));
             }
 
             app.UseRouting();
@@ -64,6 +66,16 @@ namespace Test.Backend
             {
                 endpoints.MapControllers();
             });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Test.Backend v1"));
+
+            if (env.IsStaging())
+            {
+                app.UseStaticFiles();
+                app.UseSpaStaticFiles();
+                app.UseSpa(spa => { spa.Options.SourcePath = "ClientApp"; });
+            }
 
 
             using var scope = app.ApplicationServices.CreateScope();
