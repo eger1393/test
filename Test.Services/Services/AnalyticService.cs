@@ -35,10 +35,9 @@ namespace Test.Services.Services
 
         public async Task<double> CalculateRollingRetentionAsync(ushort days)
         {
-            var activeUsersCount = _userRepository.GetCountActiveUsersAfter(days);
-            var registeredUsersCount = _userRepository.GetCountUsersWhoRegisteredEarlierThan(DateTime.Today.AddDays(-days));
-            await Task.WhenAll(activeUsersCount, registeredUsersCount);
-            var rollingRetention = (double)activeUsersCount.Result / registeredUsersCount.Result * 100;
+            var activeUsersCount = await _userRepository.GetCountActiveUsersAfter(days);
+            var registeredUsersCount =  await _userRepository.GetCountUsersWhoRegisteredEarlierThan(DateTime.Today.AddDays(days));
+            var rollingRetention = (double)activeUsersCount / registeredUsersCount * 100;
             return rollingRetention;
         }
 
