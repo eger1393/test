@@ -26,14 +26,14 @@ namespace Test.Data.Repository
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
-        Task<int> GetCountUsersWhoRegisteredEarlierThan(DateTime date);
+        Task<int> GetCountUsersWhoRegisteredEarlierThanAsync(DateTime date);
 
         /// <summary>
         /// Кол-во пользователей время жизни (RegistrationDate - LastActivityDate) которых больше чем days
         /// </summary>
         /// <param name="days"></param>
         /// <returns></returns>
-        Task<int> GetCountActiveUsersAfter(ushort days);
+        Task<int> GetCountActiveUsersAfterAsync(ushort days);
 
         /// <summary>
         /// Удаление всех пользователей
@@ -63,12 +63,12 @@ namespace Test.Data.Repository
             return _context.Users.ToListAsync();
         }
 
-        public Task<int> GetCountUsersWhoRegisteredEarlierThan(DateTime date)
+        public async Task<int> GetCountUsersWhoRegisteredEarlierThanAsync(DateTime date)
         {
             return _context.Users.CountAsync(x => x.RegistrationDate <= date);
         }
 
-        public Task<int> GetCountActiveUsersAfter(ushort days)
+        public Task<int> GetCountActiveUsersAfterAsync(ushort days)
         {
             return _context.Users.CountAsync(x => x.LifeSpanDays >= days);
         }

@@ -21,7 +21,7 @@ namespace Test.Services.Services
         /// Вычисление распределения времени жизни пользователей
         /// </summary>
         /// <returns></returns>
-        public Task<IEnumerable<LifeSpan>> GetLifeSpanDistribution();
+        public Task<IEnumerable<LifeSpan>> GetLifeSpanDistributionAsync();
     }
 
     public class AnalyticService : IAnalyticService
@@ -41,7 +41,7 @@ namespace Test.Services.Services
             return rollingRetention;
         }
 
-        public async Task<IEnumerable<LifeSpan>> GetLifeSpanDistribution()
+        public async Task<IEnumerable<LifeSpan>> GetLifeSpanDistributionAsync()
         {
             var users = await _userRepository.GetAllAsync();
             var lifeSpanDays = users.Select(x => x.LifeSpanDays).ToList();
